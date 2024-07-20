@@ -5,62 +5,97 @@ import { NextRequest, NextResponse } from "next/server";
 import { nanoid } from "nanoid";
 import { Resend } from "resend";
 import { EmailTemplate } from "./email-template";
+import { put } from "@vercel/blob";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
+
+interface CustomField {
+  key: string;
+  text: { value: string };
+}
+
+async function generateAndStoreQRCode(
+  url: string,
+  filename: string
+): Promise<string> {
+  try {
+    const qrBuffer = await QRCode.toBuffer(url);
+    const blob = await put(filename, qrBuffer, {
+      access: "public",
+      contentType: "image/png",
+    });
+    return blob.url;
+  } catch (error) {
+    console.error("Error generating or storing QR code:", error);
+    throw new Error("Failed to generate or store QR code");
+  }
+}
+
+async function sendEmail(to: string, name: string, qrCodeUrl: string) {
+  try {
+    const { data, error } = await resend.emails.send({
+      from: "conference@nailmoment.pl",
+      to,
+      subject: "Ваш квиток на конференцію Nail Moment",
+      html: "",
+      react: EmailTemplate({ name, qrCodeUrl }),
+    });
+
+    if (error) {
+      throw error;
+    }
+
+    console.log("Email sent successfully:", data);
+  } catch (error) {
+    console.error("Error sending email:", error);
+    throw new Error("Failed to send email");
+  }
+}
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
 
-    if (body.type === "checkout.session.completed") {
-      const id = nanoid(10);
-      const name =
-        body.data.object.custom_fields.find(
-          (field: any) => field.key === "name"
-        )?.text.value || "";
-      const email = body.data.object.customer_details.email;
-      const phone = body.data.object.customer_details.phone;
-      const instagram = body.data.object.custom_fields.find(
-        (field: any) => field.key.toLowerCase() === "instagram"
-      )?.text.value;
-
-      // Insert ticket into database
-      await db.insert(ticketTable).values({
-        id,
-        name,
-        email,
-        phone,
-        instagram,
-      });
-
-      // Generate QR code
-      const qrCodeDataURL = await QRCode.toDataURL(
-        `https://dashboard.nailmoment.pl/ticket/${id}`
+    if (body.type !== "checkout.session.completed") {
+      return NextResponse.json(
+        { message: "Unhandled event type" },
+        { status: 400 }
       );
-
-      console.log(qrCodeDataURL);
-
-      // Send email
-      const { data, error } = await resend.emails.send({
-        from: "conference@nailmoment.pl",
-        to: email,
-        subject: "Ваш квиток на конференцію Nail Moment",
-        html: "",
-        react: EmailTemplate({ name, qrCodeUrl: qrCodeDataURL }),
-      });
-
-      if (error) {
-        console.error("Error sending email:", error);
-      } else {
-        console.log("Email sent successfully:", data);
-      }
     }
 
-    return NextResponse.json({ received: true });
+    const id = nanoid(10);
+    const customFields: CustomField[] = body.data.object.custom_fields || [];
+    const customerDetails = body.data.object.customer_details || {};
+
+    const name =
+      customFields.find((field) => field.key === "name")?.text.value || "";
+    const email = customerDetails.email;
+    const phone = customerDetails.phone;
+    const instagram =
+      customFields.find((field) => field.key.toLowerCase() === "instagram")
+        ?.text.value || "";
+
+    await db.insert(ticketTable).values({
+      id,
+      name,
+      email,
+      phone,
+      instagram,
+    });
+
+    const qrCodeUrl = await generateAndStoreQRCode(
+      `https://dashboard.nailmoment.pl/ticket/${id}`,
+      `qr-code-${id}.png`
+    );
+
+    // Send email
+    await sendEmail(email, name, qrCodeUrl);
+
+    return NextResponse.json({ received: true, ticketId: id, qrCodeUrl });
   } catch (error) {
     console.error("Error in stripe_hook route:", error);
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: "Internal server error", message: (error as Error).message },
       { status: 500 }
     );
   }
