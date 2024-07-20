@@ -12,8 +12,8 @@ export async function POST(request: NextRequest) {
 
   if (body.type === "checkout.session.completed") {
     const session = body.data;
-
-    console.log(body.data);
+    console.log(body);
+    console.log(body.custom_fields);
   }
 
   // Handle other event types if needed
