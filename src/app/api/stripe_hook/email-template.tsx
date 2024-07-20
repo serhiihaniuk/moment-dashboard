@@ -30,16 +30,12 @@ export const EmailTemplate: React.FC<EmailTemplateProps> = ({
           Ми раді запросити вас на конференцію Nail Moment. Ваш квиток готовий!
         </Text>
         <Section style={qrContainer}>
-          <div
-            dangerouslySetInnerHTML={{
-              __html: `
-            <img src="${qrCodeUrl}" 
-                 width="200" 
-                 height="200" 
-                 alt="QR код вашого квитка" 
-                 style="display:block;outline:none;border:none;text-decoration:none;margin:0 auto" />
-          `,
-            }}
+          <Img
+            src={qrCodeUrl}
+            width="200"
+            height="200"
+            alt="QR код вашого квитка"
+            style={qrCode}
           />
         </Section>
         <Text style={text}>
