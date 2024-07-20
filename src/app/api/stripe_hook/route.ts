@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
       const phone = body.data.object.customer_details.phone;
       const instagram = body.data.object.custom_fields.find(
         (field: any) => field.key.toLowerCase() === "instagram"
-      );
+      )?.text.value;
 
       console.log("data to pass", { id, name, email, phone, instagram });
 
