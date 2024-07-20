@@ -26,6 +26,7 @@ export const ticketTable = pgTable("ticket", {
   email: text("email").notNull(),
   instagram: text("instagram").notNull(),
   phone: text("phone").notNull(),
+  qr_code: text("qr_code").notNull(),
   date: timestamp("date", {
     withTimezone: true,
     mode: "date",

@@ -1,0 +1,1 @@
+ALTER TABLE "ticket" ADD COLUMN "qr_code" text NOT NULL;

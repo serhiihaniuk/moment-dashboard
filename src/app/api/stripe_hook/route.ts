@@ -75,18 +75,21 @@ export async function POST(request: NextRequest) {
       customFields.find((field) => field.key.toLowerCase() === "instagram")
         ?.text.value || "";
 
+    const qrCodeUrl = await generateAndStoreQRCode(
+      `https://dashboard.nailmoment.pl/ticket/${id}`,
+      `qr-code-${id}.png`
+    );
+
+    console.log({ qrCodeUrl });
+
     await db.insert(ticketTable).values({
       id,
       name,
       email,
       phone,
       instagram,
+      qr_code: qrCodeUrl,
     });
-
-    const qrCodeUrl = await generateAndStoreQRCode(
-      `https://dashboard.nailmoment.pl/ticket/${id}`,
-      `qr-code-${id}.png`
-    );
 
     // Send email
     await sendEmail(email, name, qrCodeUrl);
