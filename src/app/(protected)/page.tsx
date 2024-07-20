@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuth } from "@/shared/auth-provider";
+import { useAuth } from "@/shared/provider/auth-provider";
 
 export default function Home() {
   const { user } = useAuth();

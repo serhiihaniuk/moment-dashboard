@@ -3,7 +3,7 @@
 import React from "react";
 import { createContext, useContext } from "react";
 import { Session } from "lucia";
-import { User } from "./schema";
+import { User } from "../schema";
 
 type Props = {
   children?: React.ReactNode;

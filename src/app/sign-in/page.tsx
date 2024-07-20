@@ -18,10 +18,10 @@ export default function SignIn() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main className="flex min-h-screen flex-col items-center justify-center p-5">
       <form
         action={handleSubmit}
-        className="flex flex-col gap-4 w-full max-w-md"
+        className="flex flex-col gap-4 w-full max-w-md mx-auto"
       >
         {error && (
           <div
