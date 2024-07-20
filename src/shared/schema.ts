@@ -20,6 +20,23 @@ export const sessionTable = pgTable("session", {
   }).notNull(),
 });
 
+export const ticketTable = pgTable("ticket", {
+  id: text("id").primaryKey(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => userTable.id),
+  userName: text("user_name").notNull(),
+  stripeId: text("stripe_id").notNull(),
+  email: text("email").notNull(),
+  date: timestamp("date", {
+    withTimezone: true,
+    mode: "date",
+  })
+    .notNull()
+    .defaultNow(),
+});
+
 export type InsertUser = typeof userTable.$inferInsert;
 export type SelectUser = typeof userTable.$inferSelect;
 export type User = Omit<InsertUser, "password">;
+export type InsertTicket = typeof ticketTable.$inferInsert;

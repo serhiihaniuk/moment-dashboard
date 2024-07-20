@@ -1,22 +1,30 @@
 "use client";
 
 import { useAuth } from "@/shared/provider/auth-provider";
+import { useState } from "react";
 
 export default function Home() {
   const { user } = useAuth();
+  const [url, setUrl] = useState<string | null>(null);
   // redirect to sign-in page if user is not authenticated
 
   if (!user) {
     return <h1>You are not authenticated</h1>;
   }
 
+  let response: any = null;
+
   const sendEmail = async () => {
-    const response = await fetch("/api/email", {
+    const response = await fetch("/api/stripe_hook", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
     });
+
+    const responsePayload = await response.json();
+
+    setUrl(responsePayload.code);
 
     if (!response.ok) {
       throw new Error("Failed to send email");
@@ -33,6 +41,7 @@ export default function Home() {
         {" "}
         Send Email{" "}
       </button>
+      {url && <img src={url} alt="qr-code" />}
     </main>
   );
 }

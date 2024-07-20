@@ -8,11 +8,13 @@
     "start": "next start",
     "lint": "next lint",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "dotenv -c -- tsx ./scripts/db-migrate.ts"
+    "db:migrate": "dotenv -c -- tsx ./scripts/db-migrate.ts",
+    "stripe:listen": "stripe listen --forward-to localhost:3000/api/stripe_hook"
   },
   "dependencies": {
     "@lucia-auth/adapter-drizzle": "^1.0.7",
     "@types/bcrypt": "^5.0.2",
+    "@types/qrcode": "^1.5.5",
     "@vercel/postgres": "^0.9.0",
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
@@ -22,9 +24,11 @@
     "drizzle-zod": "^0.5.1",
     "lucia": "^3.2.0",
     "next": "14.2.5",
+    "qrcode": "^1.5.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "resend": "^3.4.0",
+    "stripe": "^16.2.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
