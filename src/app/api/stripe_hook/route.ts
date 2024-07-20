@@ -17,20 +17,28 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
+export const config = {
+  bodyParser: false,
+};
+
 export async function POST(request: Request) {
-  const body = await request.json();
+  const body = await request.text();
   const signature = request.headers.get("stripe-signature")!;
 
   let event: Stripe.Event;
+  console.log("starting");
 
   try {
+    console.log("trying to construct event");
     event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
+    console.log("constructed event");
   } catch (err: any) {
     console.error(`Webhook signature verification failed: ${err.message}`);
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
   }
 
   if (event.type === "payment_intent.succeeded") {
+    console.log("payment intent succeeded");
     const paymentIntent = event.data.object as Stripe.PaymentIntent;
     console.log(`PaymentIntent ${paymentIntent.id} was successful!`);
 
@@ -40,6 +48,7 @@ export async function POST(request: Request) {
     // - Send a confirmation email
     // - Fulfill the order
   }
+  console.log("ending");
 
   return NextResponse.json({ received: true });
 }
