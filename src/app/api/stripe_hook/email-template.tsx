@@ -37,6 +37,7 @@ export const EmailTemplate: React.FC<EmailTemplateProps> = ({
             alt="QR код вашого квитка"
             style={qrCode}
           />
+          {qrCodeUrl}
         </Section>
         <Text style={text}>
           Будь ласка, збережіть цей QR код. Він буде потрібен для входу на

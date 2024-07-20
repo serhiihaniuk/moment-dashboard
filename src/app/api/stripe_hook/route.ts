@@ -4,7 +4,6 @@ import { ticketTable } from "@/shared/schema";
 import { NextRequest, NextResponse } from "next/server";
 import { nanoid } from "nanoid";
 import { Resend } from "resend";
-import { render } from "@react-email/render";
 import { EmailTemplate } from "./email-template";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -38,6 +37,8 @@ export async function POST(request: NextRequest) {
       const qrCodeDataURL = await QRCode.toDataURL(
         `https://dashboard.nailmoment.pl/ticket/${id}`
       );
+
+      console.log(qrCodeDataURL);
 
       // Send email
       const { data, error } = await resend.emails.send({
