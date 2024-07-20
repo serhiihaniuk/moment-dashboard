@@ -22,12 +22,10 @@ export const sessionTable = pgTable("session", {
 
 export const ticketTable = pgTable("ticket", {
   id: text("id").primaryKey(),
-  userId: text("user_id")
-    .notNull()
-    .references(() => userTable.id),
-  userName: text("user_name").notNull(),
-  stripeId: text("stripe_id").notNull(),
+  name: text("name").notNull(),
   email: text("email").notNull(),
+  instagram: text("instagram").notNull(),
+  phone: text("phone").notNull(),
   date: timestamp("date", {
     withTimezone: true,
     mode: "date",
