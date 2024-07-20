@@ -13,8 +13,7 @@ export default function SignIn() {
     if (result.error) {
       setError(result.error);
     } else if (result.success) {
-      // Redirect to dashboard or home page
-      router.push("/dashboard");
+      router.push("/");
     }
   };
 

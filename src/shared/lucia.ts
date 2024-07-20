@@ -1,5 +1,6 @@
 import { Lucia } from "lucia";
 import { adapter } from "./db";
+import { User } from "./schema";
 
 export const lucia = new Lucia(adapter, {
   sessionCookie: {
@@ -8,9 +9,8 @@ export const lucia = new Lucia(adapter, {
       secure: process.env.NODE_ENV === "production",
     },
   },
-  getUserAttributes: (attributes: any) => {
+  getUserAttributes: (attributes: any): User => {
     return {
-      // attributes has the type of DatabaseUserAttributes
       username: attributes.username,
     };
   },
