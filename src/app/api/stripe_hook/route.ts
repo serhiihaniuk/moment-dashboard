@@ -1,11 +1,21 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+if (!process.env.STRIPE_SECRET_KEY) {
+  console.error("STRIPE_SECRET_KEY is not defined");
+  throw new Error("STRIPE_SECRET_KEY is not defined");
+}
+
+if (!process.env.STRIPE_WEBHOOK_SECRET) {
+  console.error("STRIPE_WEBHOOK_SECRET is not defined");
+  throw new Error("STRIPE_WEBHOOK_SECRET is not defined");
+}
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: "2024-06-20",
 });
 
-const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
+const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
 export async function POST(request: Request) {
   const body = await request.json();
