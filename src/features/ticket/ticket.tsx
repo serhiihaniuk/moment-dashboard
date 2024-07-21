@@ -7,8 +7,8 @@ export function TicketCard({ ticket }: { ticket: Ticket }) {
   return (
     <div className="ticket-card">
       <Link href={`/ticket/${ticket.id}`} className="ticket-title-link">
-        <h2 className="ticket-title  flex items-center jusbetify-between">
-          <span className="text-gray-800">{ticket.name}</span>
+        <h2 className="ticket-title  flex items-center gap-3 jusbetify-between">
+          <span className="text-bule-800">{ticket.name}</span>
           <span className="text-emerald-900 font-bold">{ticket.grade}</span>
         </h2>
       </Link>
