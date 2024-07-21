@@ -75,7 +75,7 @@ export async function POST(request: NextRequest) {
       customFields.find((field) => field.key.toLowerCase() === "instagram")
         ?.text.value || ""
     );
-    const grade = body.data.object.metadata.ticket.ticket || "unknown";
+    const grade = body.data.object.metadata.ticket || "unknown";
 
     const event_id = body.id || "unknown";
 
