@@ -1,5 +1,6 @@
 import { getTickets } from "@/features/actions/get-tickets";
 import { toggleTicketPresence } from "@/features/ticket/actions";
+import { Ticket } from "@/shared/schema";
 import Link from "next/link";
 
 const getTicketById = async (id: string) => {
