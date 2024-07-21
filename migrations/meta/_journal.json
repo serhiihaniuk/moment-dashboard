@@ -22,6 +22,13 @@
       "when": 1721515823978,
       "tag": "0002_oval_silverclaw",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1721518560790,
+      "tag": "0003_public_nicolaos",
+      "breakpoints": true
     }
   ]
 }

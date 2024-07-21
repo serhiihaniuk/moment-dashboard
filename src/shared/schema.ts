@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { boolean, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { generateId } from "lucia";
 
 export const userTable = pgTable("user", {
@@ -27,6 +27,7 @@ export const ticketTable = pgTable("ticket", {
   instagram: text("instagram").notNull(),
   phone: text("phone").notNull(),
   qr_code: text("qr_code").notNull(),
+  arrived: boolean("arrived").notNull().default(false),
   date: timestamp("date", {
     withTimezone: true,
     mode: "date",
@@ -39,3 +40,4 @@ export type InsertUser = typeof userTable.$inferInsert;
 export type SelectUser = typeof userTable.$inferSelect;
 export type User = Omit<InsertUser, "password">;
 export type InsertTicket = typeof ticketTable.$inferInsert;
+export type Ticket = typeof ticketTable.$inferSelect;

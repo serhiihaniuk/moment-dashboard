@@ -1,47 +1,21 @@
-"use client";
+import Link from "next/link";
+import { getTickets } from "@/features/actions/get-tickets";
+import { Ticket } from "@/shared/schema";
+import { TicketCard } from "@/features/ticket";
 
-import { useAuth } from "@/shared/provider/auth-provider";
-import { useState } from "react";
-
-export default function Home() {
-  const { user } = useAuth();
-  const [url, setUrl] = useState<string | null>(null);
-  // redirect to sign-in page if user is not authenticated
-
-  if (!user) {
-    return <h1>You are not authenticated</h1>;
-  }
-
-  let response: any = null;
-
-  const sendEmail = async () => {
-    const response = await fetch("/api/stripe_hook", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    const responsePayload = await response.json();
-
-    setUrl(responsePayload.code);
-
-    if (!response.ok) {
-      throw new Error("Failed to send email");
-    }
-  };
+export default async function Home() {
+  const tickets: Ticket[] = await getTickets();
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-start p-24">
-      <h1>Welcome, {user?.username}</h1>
-      <button
-        onClick={sendEmail}
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-      >
-        {" "}
-        Send Email{" "}
-      </button>
-      {url && <img src={url} alt="qr-code" />}
+    <main className="min-h-screen bg-gray-100 p-4 sm:p-6 md:p-8">
+      <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">
+        Билеты
+      </h1>
+      <div className="space-y-4">
+        {tickets.map((ticket) => (
+          <TicketCard key={ticket.id} ticket={ticket} />
+        ))}
+      </div>
     </main>
   );
 }
