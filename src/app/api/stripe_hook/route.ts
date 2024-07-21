@@ -71,9 +71,10 @@ export async function POST(request: NextRequest) {
       customFields.find((field) => field.key === "name")?.text.value || "";
     const email = customerDetails.email;
     const phone = customerDetails.phone;
-    const instagram =
+    const instagram = extractInstagramUsername(
       customFields.find((field) => field.key.toLowerCase() === "instagram")
-        ?.text.value || "";
+        ?.text.value || ""
+    );
 
     const qrCodeUrl = await generateAndStoreQRCode(
       `https://dashboard.nailmoment.pl/ticket/${id}`,
@@ -101,5 +102,26 @@ export async function POST(request: NextRequest) {
       { error: "Internal server error", message: (error as Error).message },
       { status: 500 }
     );
+  }
+}
+
+function extractInstagramUsername(inputString: string): string {
+  // Remove leading/trailing whitespace
+  inputString = inputString.trim();
+
+  // Regular expression pattern to match Instagram usernames
+  const pattern =
+    /(?:https?:\/\/)?(?:www\.)?instagram\.com\/(?!p\/|explore\/|accounts\/)([A-Za-z0-9_.](?:(?:[A-Za-z0-9_.]|(?:\.(?!\.))){0,28}(?:[A-Za-z0-9_])))?\/?/;
+
+  // Try to find a match using the pattern
+  const match = inputString.match(pattern);
+
+  if (match && match[1]) {
+    // If matched, return the captured username
+    return match[1];
+  } else {
+    // If no match found, assume the input might be just the username
+    // Remove any leading @ symbol and return
+    return inputString.replace(/^@/, "");
   }
 }

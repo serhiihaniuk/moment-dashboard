@@ -12,7 +12,7 @@ export const AppProvider = async ({
   console.log(user, session);
 
   if (!user || !session) {
-    redirect("/sign-in");
+    redirect("/wow");
   }
 
   return (

@@ -1,0 +1,94 @@
+.ticket-card {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  transition: box-shadow 0.3s ease;
+}
+
+.ticket-card:hover {
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.ticket-title-link {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.ticket-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #2563eb;
+  transition: color 0.3s ease;
+}
+
+.ticket-title:hover {
+  color: #1e40af;
+}
+
+.ticket-info {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+@media (min-width: 640px) {
+  .ticket-info {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.ticket-contact-link {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.icon {
+  height: 1.25rem;
+  width: 1.25rem;
+  color: #9ca3af;
+}
+
+.ticket-status {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.status-label {
+  margin-right: 0.5rem;
+  font-size: 0.875rem;
+  color: #4b5563;
+}
+
+.status-badge {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 0.25rem;
+}
+
+.status-badge.arrived {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.status-badge.not-arrived {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.ticket-form {
+  margin-top: 0.5rem;
+}
+
+.toggle-presence-button {
+  font-size: 0.875rem;
+  color: #2563eb;
+}
+
+.toggle-presence-button:hover {
+  color: #1e40af;
+}
