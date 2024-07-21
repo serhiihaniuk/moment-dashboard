@@ -77,6 +77,8 @@ export async function POST(request: NextRequest) {
     );
     const grade = body.data.object.metadata.ticket.ticket || "unknown";
 
+    const event_id = body.id || "unknown";
+
     const qrCodeUrl = await generateAndStoreQRCode(
       `https://dashboard.nailmoment.pl/ticket/${id}`,
       `qr-code-${id}.png`
@@ -92,6 +94,7 @@ export async function POST(request: NextRequest) {
       instagram,
       qr_code: qrCodeUrl,
       grade,
+      event_id,
     });
 
     // Send email

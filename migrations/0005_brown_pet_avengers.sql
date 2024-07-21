@@ -1,0 +1,1 @@
+ALTER TABLE "ticket" ADD COLUMN "event_id" text DEFAULT 'unknown' NOT NULL;
