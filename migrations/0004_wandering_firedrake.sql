@@ -1,0 +1,1 @@
+ALTER TABLE "ticket" ADD COLUMN "grade" text DEFAULT 'unknown' NOT NULL;

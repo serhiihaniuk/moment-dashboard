@@ -7,7 +7,9 @@ export function TicketCard({ ticket }: { ticket: Ticket }) {
   return (
     <div className="ticket-card">
       <Link href={`/ticket/${ticket.id}`} className="ticket-title-link">
-        <h2 className="ticket-title">{ticket.name}</h2>
+        <h2 className="ticket-title">
+          {ticket.name}-{ticket.grade}
+        </h2>
       </Link>
       <div className="ticket-info">
         <Link className="ticket-contact-link" href={`mailto:${ticket.email}`}>

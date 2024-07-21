@@ -75,6 +75,7 @@ export async function POST(request: NextRequest) {
       customFields.find((field) => field.key.toLowerCase() === "instagram")
         ?.text.value || ""
     );
+    const grade = body.data.object.metadata.ticket.ticket || "unknown";
 
     const qrCodeUrl = await generateAndStoreQRCode(
       `https://dashboard.nailmoment.pl/ticket/${id}`,
@@ -90,6 +91,7 @@ export async function POST(request: NextRequest) {
       phone,
       instagram,
       qr_code: qrCodeUrl,
+      grade,
     });
 
     // Send email
@@ -125,3 +127,9 @@ function extractInstagramUsername(inputString: string): string {
     return inputString.replace(/^@/, "");
   }
 }
+
+const ticketGrade = {
+  plink_1PeyTlFrJFBf1WKuFvXfyWFM: "regular",
+  plink_1PeyV5FrJFBf1WKuMZMYrOdf: "vip",
+  plink_1PeyVwFrJFBf1WKuZwFg14O5: "premium",
+};

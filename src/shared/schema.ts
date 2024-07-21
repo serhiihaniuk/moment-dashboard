@@ -28,6 +28,7 @@ export const ticketTable = pgTable("ticket", {
   phone: text("phone").notNull(),
   qr_code: text("qr_code").notNull(),
   arrived: boolean("arrived").notNull().default(false),
+  grade: text("grade").notNull().default("unknown"),
   date: timestamp("date", {
     withTimezone: true,
     mode: "date",
