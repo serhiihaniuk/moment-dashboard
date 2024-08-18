@@ -8,7 +8,7 @@ function RegistrationList({
   registrations: ConcursRegistration[];
 }) {
   return (
-    <div className="mt-8">
+    <div className="space-y-4 max-w-96 mx-auto">
       <h2 className="text-xl font-bold text-center mb-6 text-gray-800">
         {registrations.length
           ? "Участники"
