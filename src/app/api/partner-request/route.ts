@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
     console.error("Error in partner request route:", error);
     return NextResponse.json(
       { error: "Internal server error", message: (error as Error).message },
-      { status: 500, headers }
+      { status: 500 }
     );
   }
 }
