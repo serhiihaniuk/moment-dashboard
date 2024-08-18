@@ -54,6 +54,28 @@ export const partnerRequestTable = pgTable("partner_request", {
     .defaultNow(),
 });
 
+export const concursRegistrationTable = pgTable("concurs_registration", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => generateId(15)),
+  first_name: text("first_name").notNull(),
+  last_name: text("last_name").notNull(),
+  phone: text("phone").notNull(),
+  email: text("email").notNull(),
+  instagram: text("instagram").notNull(),
+  category: text("category").notNull(),
+  created_at: timestamp("created_at", {
+    withTimezone: true,
+    mode: "date",
+  })
+    .notNull()
+    .defaultNow(),
+});
+
+export type InsertConcursRegistration =
+  typeof concursRegistrationTable.$inferInsert;
+export type ConcursRegistration = typeof concursRegistrationTable.$inferSelect;
+
 export type InsertPartnerRequest = typeof partnerRequestTable.$inferInsert;
 export type PartnerRequest = typeof partnerRequestTable.$inferSelect;
 

@@ -50,6 +50,13 @@
       "when": 1723996552301,
       "tag": "0006_premium_iron_patriot",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1724000084025,
+      "tag": "0007_cold_wasp",
+      "breakpoints": true
     }
   ]
 }

@@ -51,21 +51,3 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-
-export async function GET() {
-  try {
-    const partnerRequests = await db.select().from(partnerRequestTable);
-
-    return NextResponse.json(partnerRequests, {
-      status: 200,
-    });
-  } catch (error) {
-    console.error("Error fetching partner requests:", error);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      {
-        status: 500,
-      }
-    );
-  }
-}

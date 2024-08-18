@@ -20,6 +20,14 @@ function Header() {
               Партнерство
             </Link>
           </li>
+          <li>
+            <Link
+              href="/concurs"
+              className="hover:text-blue-200 transition-colors"
+            >
+              Конкурсы
+            </Link>
+          </li>
         </ul>
       </nav>
     </header>
