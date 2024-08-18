@@ -6,6 +6,7 @@ import { nanoid } from "nanoid";
 import { Resend } from "resend";
 import { EmailTemplate } from "./email-template";
 import { put } from "@vercel/blob";
+import { extractInstagramUsername } from "@/shared/util";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -84,8 +85,6 @@ export async function POST(request: NextRequest) {
       `qr-code-${id}.png`
     );
 
-    console.log({ qrCodeUrl });
-
     await db.insert(ticketTable).values({
       id,
       name,
@@ -97,7 +96,6 @@ export async function POST(request: NextRequest) {
       event_id,
     });
 
-    // Send email
     await sendEmail(email, name, qrCodeUrl);
 
     return NextResponse.json({ received: true, ticketId: id, qrCodeUrl });
@@ -109,30 +107,3 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-
-function extractInstagramUsername(inputString: string): string {
-  // Remove leading/trailing whitespace
-  inputString = inputString.trim();
-
-  // Regular expression pattern to match Instagram usernames
-  const pattern =
-    /(?:https?:\/\/)?(?:www\.)?instagram\.com\/(?!p\/|explore\/|accounts\/)([A-Za-z0-9_.](?:(?:[A-Za-z0-9_.]|(?:\.(?!\.))){0,28}(?:[A-Za-z0-9_])))?\/?/;
-
-  // Try to find a match using the pattern
-  const match = inputString.match(pattern);
-
-  if (match && match[1]) {
-    // If matched, return the captured username
-    return match[1];
-  } else {
-    // If no match found, assume the input might be just the username
-    // Remove any leading @ symbol and return
-    return inputString.replace(/^@/, "");
-  }
-}
-
-const ticketGrade = {
-  plink_1PeyTlFrJFBf1WKuFvXfyWFM: "regular",
-  plink_1PeyV5FrJFBf1WKuMZMYrOdf: "vip",
-  plink_1PeyVwFrJFBf1WKuZwFg14O5: "premium",
-};

@@ -15,7 +15,17 @@ export default async function TicketPage({
   const ticket = await getTicketById(params.id);
 
   if (!ticket) {
-    return <div className="text-center mt-10">Билет не найден</div>;
+    return (
+      <div>
+        <Link
+          href="/"
+          className="text-blue-600 hover:text-blue-800 mb-4 inline-block"
+        >
+          ← Назад к списку билетов
+        </Link>
+        <div className="text-center mt-10">Билет не найден</div>
+      </div>
+    );
   }
 
   return (

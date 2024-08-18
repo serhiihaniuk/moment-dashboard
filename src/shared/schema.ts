@@ -38,6 +38,25 @@ export const ticketTable = pgTable("ticket", {
   event_id: text("event_id").notNull().default("unknown"),
 });
 
+export const partnerRequestTable = pgTable("partner_request", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => generateId(15)),
+  full_name: text("full_name").notNull(),
+  phone: text("phone").notNull(),
+  email: text("email").notNull(),
+  brand_name: text("brand_name").notNull(),
+  created_at: timestamp("created_at", {
+    withTimezone: true,
+    mode: "date",
+  })
+    .notNull()
+    .defaultNow(),
+});
+
+export type InsertPartnerRequest = typeof partnerRequestTable.$inferInsert;
+export type PartnerRequest = typeof partnerRequestTable.$inferSelect;
+
 export type InsertUser = typeof userTable.$inferInsert;
 export type SelectUser = typeof userTable.$inferSelect;
 export type User = Omit<InsertUser, "password">;
