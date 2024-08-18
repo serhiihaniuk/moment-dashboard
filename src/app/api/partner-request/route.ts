@@ -1,7 +1,7 @@
 import cors from "@/shared/cors";
 import { db } from "@/shared/db";
 import { partnerRequestTable } from "@/shared/schema";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function OPTIONS(request: Request) {
   return cors(
@@ -48,6 +48,24 @@ export async function POST(request: NextRequest) {
       new Response(null, {
         status: 500,
       })
+    );
+  }
+}
+
+export async function GET() {
+  try {
+    const partnerRequests = await db.select().from(partnerRequestTable);
+
+    return NextResponse.json(partnerRequests, {
+      status: 200,
+    });
+  } catch (error) {
+    console.error("Error fetching partner requests:", error);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      {
+        status: 500,
+      }
     );
   }
 }
