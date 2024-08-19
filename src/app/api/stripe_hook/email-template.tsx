@@ -43,11 +43,9 @@ export const EmailTemplate: React.FC<EmailTemplateProps> = ({
           конференцію.
         </Text>
         <Text style={text}>
-          Дата: [Вставте дату конференції]
+          Дата: 13 Жовтня
           <br />
-          Місце: [Вставте місце проведення]
-          <br />
-          Час: [Вставте час початку]
+          Місце: Баскетбольна арена Jozefa Szanajcy 17/19, 03-481 Warszawa
         </Text>
         <Text style={text}>З нетерпінням чекаємо на зустріч з вами!</Text>
         <Text style={footer}>
