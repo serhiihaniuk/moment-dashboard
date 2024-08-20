@@ -39,6 +39,7 @@ export function TicketCard({ ticket }: { ticket: Ticket }) {
         {ticket.instagram && (
           <Link
             className="ticket-contact-link"
+            target="_blank"
             href={`https://instagram.com/${ticket.instagram}`}
           >
             <svg

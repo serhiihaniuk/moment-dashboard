@@ -1,6 +1,7 @@
 import React from "react";
 import { ConcursRegistration } from "@/shared/schema";
 import { getConcursRegistrations } from "@/app/api/concurs/get-concurs-registrations";
+import Link from "next/link";
 
 function RegistrationList({
   registrations,
@@ -25,7 +26,13 @@ function RegistrationList({
               {reg.category === "1" ? "Найрівніший френч" : "Корейські дизайни"}
             </p>
             <p>
-              <strong>Instagram:</strong> {reg.instagram}
+              <strong>Instagram:</strong>{" "}
+              <Link
+                href={`https://instagram.com/${reg.instagram}`}
+                target="_blank"
+              >
+                {reg.instagram}
+              </Link>
             </p>
           </li>
         ))}

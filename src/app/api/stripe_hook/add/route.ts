@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
 
     // Extract necessary fields from the request body
     const id = nanoid(10);
-    const { name, email, phone, instagram, grade, event_id } = body;
+    const { name, email, phone, instagram, grade } = body;
 
     const qrCodeUrl = await generateAndStoreQRCode(
       `https://dashboard.nailmoment.pl/ticket/${id}`,
@@ -25,7 +25,6 @@ export async function POST(request: NextRequest) {
       instagram,
       qr_code: qrCodeUrl,
       grade,
-      event_id,
     });
 
     await sendEmail(email, name, qrCodeUrl);
