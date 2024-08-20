@@ -2,7 +2,7 @@ import { db } from "@/shared/db";
 import { ticketTable } from "@/shared/schema";
 import { NextRequest, NextResponse } from "next/server";
 import { nanoid } from "nanoid";
-import { generateAndStoreQRCode, sendEmail } from "../route";
+import { generateAndStoreQRCode, sendEmail } from "../util";
 
 export async function POST(request: NextRequest) {
   try {
