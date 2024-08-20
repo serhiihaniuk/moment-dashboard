@@ -15,7 +15,7 @@ interface CustomField {
   text: { value: string };
 }
 
-async function generateAndStoreQRCode(
+export async function generateAndStoreQRCode(
   url: string,
   filename: string
 ): Promise<string> {
@@ -32,7 +32,7 @@ async function generateAndStoreQRCode(
   }
 }
 
-async function sendEmail(to: string, name: string, qrCodeUrl: string) {
+export async function sendEmail(to: string, name: string, qrCodeUrl: string) {
   try {
     const { data, error } = await resend.emails.send({
       from: "conference@nailmoment.pl",

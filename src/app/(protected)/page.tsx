@@ -1,6 +1,7 @@
 import { getTickets } from "@/features/actions/get-tickets";
 import { Ticket } from "@/shared/schema";
 import { TicketCard } from "@/features/ticket/ticket";
+import TicketModal from "@/shared/add-ticket";
 
 export default async function Home() {
   const tickets: Ticket[] = await getTickets();
@@ -10,6 +11,10 @@ export default async function Home() {
       <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">
         Билеты
       </h1>
+
+      <div className="space-y-4 max-w-96 mx-auto flex flex-col items-start gap-4 py-4">
+        <TicketModal buttonText="+" />
+      </div>
       <div className="space-y-4 max-w-96 mx-auto">
         {tickets.map((ticket) => (
           <TicketCard key={ticket.id} ticket={ticket} />
