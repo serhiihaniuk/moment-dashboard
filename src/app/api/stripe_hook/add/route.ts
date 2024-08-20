@@ -25,6 +25,7 @@ export async function POST(request: NextRequest) {
       instagram,
       qr_code: qrCodeUrl,
       grade,
+      event_id: "manual",
     });
 
     await sendEmail(email, name, qrCodeUrl);
