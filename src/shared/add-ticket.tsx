@@ -8,6 +8,7 @@ interface TicketModalProps {
 }
 
 export default function TicketModal({ buttonText }: TicketModalProps) {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -20,6 +21,7 @@ export default function TicketModal({ buttonText }: TicketModalProps) {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
 
     const response = await fetch("/api/stripe_hook/add", {
       method: "POST",
@@ -38,6 +40,14 @@ export default function TicketModal({ buttonText }: TicketModalProps) {
     if (response.ok) {
       const data = await response.json();
       console.log("Ticket added:", data);
+
+      setName("");
+      setEmail("");
+      setPhone("");
+      setInstagram("");
+      setGrade("FAN");
+      setIsLoading(false);
+
       closeModal();
     } else {
       console.error("Failed to add ticket");
@@ -97,8 +107,9 @@ export default function TicketModal({ buttonText }: TicketModalProps) {
               <button
                 type="submit"
                 className="w-full px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                disabled={isLoading}
               >
-                Add Ticket
+                {isLoading && "..."} Add Ticket
               </button>
             </form>
             <button

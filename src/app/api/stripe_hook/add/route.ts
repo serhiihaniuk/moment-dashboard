@@ -3,6 +3,7 @@ import { ticketTable } from "@/shared/schema";
 import { NextRequest, NextResponse } from "next/server";
 import { nanoid } from "nanoid";
 import { generateAndStoreQRCode, sendEmail } from "../util";
+import { revalidatePath } from "next/cache";
 
 export async function POST(request: NextRequest) {
   try {
@@ -29,6 +30,7 @@ export async function POST(request: NextRequest) {
     });
 
     await sendEmail(email, name, qrCodeUrl);
+    revalidatePath("/");
 
     return NextResponse.json({ success: true, ticketId: id, qrCodeUrl });
   } catch (error) {
