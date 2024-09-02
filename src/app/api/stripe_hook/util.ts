@@ -22,14 +22,19 @@ export async function generateAndStoreQRCode(
   }
 }
 
-export async function sendEmail(to: string, name: string, qrCodeUrl: string) {
+export async function sendEmail(
+  to: string,
+  name: string,
+  qrCodeUrl: string,
+  ticketType: "fan" | "vip" | "premium"
+) {
   try {
     const { data, error } = await resend.emails.send({
       from: "conference@nailmoment.pl",
       to,
       subject: "Ваш квиток на конференцію Nail Moment",
       html: "",
-      react: EmailTemplate({ name, qrCodeUrl }),
+      react: EmailTemplate({ name, qrCodeUrl, ticketType }),
     });
 
     if (error) {

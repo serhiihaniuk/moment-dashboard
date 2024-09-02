@@ -29,7 +29,12 @@ export async function POST(request: NextRequest) {
       event_id: "manual",
     });
 
-    await sendEmail(email, name, qrCodeUrl);
+    await sendEmail(
+      email,
+      name,
+      qrCodeUrl,
+      grade.toLowerCase() as "fan" | "vip" | "premium"
+    );
     revalidatePath("/");
 
     return NextResponse.json({ success: true, ticketId: id, qrCodeUrl });

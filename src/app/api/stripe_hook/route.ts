@@ -53,7 +53,12 @@ export async function POST(request: NextRequest) {
       event_id,
     });
 
-    await sendEmail(email, name, qrCodeUrl);
+    await sendEmail(
+      email,
+      name,
+      qrCodeUrl,
+      grade.toLowerCase() as "fan" | "vip" | "premium"
+    );
 
     return NextResponse.json({ received: true, ticketId: id, qrCodeUrl });
   } catch (error) {
