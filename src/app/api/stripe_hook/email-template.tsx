@@ -31,6 +31,8 @@ export const EmailTemplate: React.FC<EmailTemplateProps> = ({
         return "https://t.me/Nail_Moment_bot?start=6OboeAITvgiwULVj";
       case "premium":
         return "https://t.me/Nail_Moment_bot?start=uJn7C6mN1VTp0lYA";
+      default:
+        return "https://t.me/Nail_Moment_bot?start=8yXgag6xFnDEsFaf";
     }
   };
 

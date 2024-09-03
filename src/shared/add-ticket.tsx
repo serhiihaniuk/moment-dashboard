@@ -1,7 +1,7 @@
 "use client";
 import { useState, FormEvent } from "react";
 
-type TicketGrade = "FAN" | "VIP" | "Premium";
+type TicketGrade = "fan" | "vip" | "premium";
 
 interface TicketModalProps {
   buttonText: string;
@@ -14,7 +14,7 @@ export default function TicketModal({ buttonText }: TicketModalProps) {
   const [email, setEmail] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
   const [instagram, setInstagram] = useState<string>("");
-  const [grade, setGrade] = useState<TicketGrade>("FAN");
+  const [grade, setGrade] = useState<TicketGrade>("fan");
 
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
@@ -45,7 +45,7 @@ export default function TicketModal({ buttonText }: TicketModalProps) {
       setEmail("");
       setPhone("");
       setInstagram("");
-      setGrade("FAN");
+      setGrade("fan");
       setIsLoading(false);
 
       closeModal();
