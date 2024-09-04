@@ -92,3 +92,7 @@
 .toggle-presence-button:hover {
   color: #1e40af;
 }
+
+.mt15 {
+  margin-top: 35px;
+}

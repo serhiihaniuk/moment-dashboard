@@ -1,22 +1,29 @@
 import { Ticket } from "@/shared/schema";
 import Link from "next/link";
-import { toggleTicketPresence } from "./actions";
-import "./ticket.css";
+import { toggleTicketPresence } from "./actions"; // Import the required actions
+import { DeleteTicketButton } from "./delete"; // Import the DeleteTicketButton
 
 export function TicketCard({ ticket }: { ticket: Ticket }) {
   return (
-    <div className="ticket-card">
-      <Link href={`/ticket/${ticket.id}`} className="ticket-title-link">
-        <h2 className="ticket-title  flex items-center gap-3 jusbetify-between">
-          <span className="text-bule-800">{ticket.name}</span>
+    <div className="bg-white shadow-md rounded-lg p-6 mb-6">
+      {/* Ticket Header */}
+      <Link href={`/ticket/${ticket.id}`} className="block mb-4">
+        <h2 className="text-2xl font-semibold flex items-center justify-between">
+          <span className="text-blue-800">{ticket.name}</span>
           <span className="text-emerald-900 font-bold">{ticket.grade}</span>
         </h2>
       </Link>
-      <div className="ticket-info">
-        <Link className="ticket-contact-link" href={`mailto:${ticket.email}`}>
+
+      {/* Ticket Info */}
+      <div className="space-y-2 mb-4">
+        {/* Email Link */}
+        <Link
+          className="flex items-center text-gray-600 hover:text-blue-600"
+          href={`mailto:${ticket.email}`}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="icon"
+            className="w-5 h-5 mr-2"
             viewBox="0 0 20 20"
             fill="currentColor"
           >
@@ -25,10 +32,15 @@ export function TicketCard({ ticket }: { ticket: Ticket }) {
           </svg>
           {ticket.email}
         </Link>
-        <Link className="ticket-contact-link" href={`tel:${ticket.phone}`}>
+
+        {/* Phone Link */}
+        <Link
+          className="flex items-center text-gray-600 hover:text-blue-600"
+          href={`tel:${ticket.phone}`}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="icon"
+            className="w-5 h-5 mr-2"
             viewBox="0 0 20 20"
             fill="currentColor"
           >
@@ -36,15 +48,17 @@ export function TicketCard({ ticket }: { ticket: Ticket }) {
           </svg>
           {ticket.phone}
         </Link>
+
+        {/* Instagram Link */}
         {ticket.instagram && (
           <Link
-            className="ticket-contact-link"
+            className="flex items-center text-gray-600 hover:text-blue-600"
             target="_blank"
             href={`https://instagram.com/${ticket.instagram}`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="icon"
+              className="w-5 h-5 mr-2"
               viewBox="0 0 24 24"
               fill="currentColor"
             >
@@ -54,24 +68,36 @@ export function TicketCard({ ticket }: { ticket: Ticket }) {
           </Link>
         )}
       </div>
-      <div className="ticket-status">
-        <span className="status-label">Статус прибытия:</span>
+
+      {/* Ticket Status */}
+      <div className="mb-4">
+        <span className="block text-gray-700">Статус прибытия:</span>
         <span
-          className={`status-badge ${
-            ticket.arrived ? "arrived" : "not-arrived"
+          className={`inline-block px-2 py-1 text-sm font-medium rounded ${
+            ticket.arrived
+              ? "bg-green-200 text-green-800"
+              : "bg-red-200 text-red-800"
           }`}
         >
           {ticket.arrived ? "Прибыл" : "Не прибыл"}
         </span>
       </div>
-      <form action={toggleTicketPresence} className="ticket-form">
+
+      {/* Form to toggle ticket presence */}
+      <form action={toggleTicketPresence} className="mb-4">
         <input type="hidden" name="ticketId" value={ticket.id} />
-        <button type="submit" className="toggle-presence-button">
+        <button
+          type="submit"
+          className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-700"
+        >
           {ticket.arrived
             ? "Отметить как не прибывшего"
             : "Отметить как прибывшего"}
         </button>
       </form>
+
+      {/* Delete Button */}
+      <DeleteTicketButton ticketId={ticket.id} />
     </div>
   );
 }
