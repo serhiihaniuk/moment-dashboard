@@ -36,6 +36,7 @@ export const ticketTable = pgTable("ticket", {
     .notNull()
     .defaultNow(),
   event_id: text("event_id").notNull().default("unknown"),
+  archived: boolean("archived").notNull().default(false),
 });
 
 export const partnerRequestTable = pgTable("partner_request", {

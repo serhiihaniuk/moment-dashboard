@@ -57,6 +57,13 @@
       "when": 1724000084025,
       "tag": "0007_cold_wasp",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1725461936289,
+      "tag": "0008_fixed_shiva",
+      "breakpoints": true
     }
   ]
 }
