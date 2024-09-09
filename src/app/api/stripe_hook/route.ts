@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
     const customerDetails = body.data.object.customer_details || {};
 
     const name =
-      customFields.find((field) => field.key === "name")?.text.value || "";
+      customFields.find((field) => field.key === "name")?.text?.value || "";
     const email = customerDetails.email;
     const phone = customerDetails.phone;
     const instagram = extractInstagramUsername(
