@@ -47,7 +47,7 @@ export default async function Home() {
                 </td>
                 <td className="px-1 py-4 whitespace-nowrap text-sm font-medium text-blue-800">
                   <a href={`/ticket/${ticket.id}`} className="hover:underline">
-                    {ticket.name}
+                    {ticket.name} - {ticket.grade}
                   </a>
                 </td>
                 <td className="px-1 py-4 whitespace-nowrap text-sm text-gray-700">
