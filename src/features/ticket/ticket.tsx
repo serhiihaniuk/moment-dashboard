@@ -2,29 +2,7 @@ import { Ticket } from "@/shared/schema";
 import Link from "next/link";
 import { toggleTicketPresence } from "./actions"; // Import the required actions
 import { DeleteTicketButton } from "./delete"; // Import the DeleteTicketButton
-
-function formatInstagramLink(instagram: string) {
-  // Check if the string starts with "http" to determine if it's already a full link
-  if (!instagram.startsWith("http")) {
-    return `https://www.instagram.com/${instagram}`;
-  }
-  // If it's already a full link, return as is
-  return instagram;
-}
-
-function extractInstagramName(link: string) {
-  // Remove the base URL
-  let username = link.replace("https://www.instagram.com/", "");
-
-  // Split by '/' and take the first part, which is the username
-  username = username.split("/")[0];
-
-  // If there are query parameters or hash fragments, ignore them
-  username = username.split("?")[0];
-  username = username.split("#")[0];
-
-  return username;
-}
+import { extractInstagramName, formatInstagramLink } from "@/shared/util";
 
 export function TicketCard({ ticket }: { ticket: Ticket }) {
   return (
