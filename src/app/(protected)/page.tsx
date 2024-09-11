@@ -2,6 +2,7 @@ import { getTickets } from "@/features/actions/get-tickets";
 import { Ticket } from "@/shared/schema";
 import TicketModal from "@/shared/add-ticket";
 import { extractInstagramName, formatInstagramLink } from "@/shared/util";
+import { HandCoins } from "lucide-react";
 
 export default async function Home() {
   const tickets: Ticket[] = await getTickets();
@@ -46,8 +47,14 @@ export default async function Home() {
                   </a>
                 </td>
                 <td className="px-1 py-4 whitespace-nowrap text-sm font-medium text-blue-800">
-                  <a href={`/ticket/${ticket.id}`} className="hover:underline">
+                  <a
+                    href={`/ticket/${ticket.id}`}
+                    className="hover:underline flex gap-2"
+                  >
                     {ticket.name} - {ticket.grade}
+                    {ticket.event_id !== "manual" && (
+                      <HandCoins size={14} color="green" />
+                    )}
                   </a>
                 </td>
                 <td className="px-1 py-4 whitespace-nowrap text-sm text-gray-700">
