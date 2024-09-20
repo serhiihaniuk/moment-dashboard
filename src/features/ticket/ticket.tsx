@@ -3,6 +3,7 @@ import Link from "next/link";
 import { toggleTicketPresence } from "./actions"; // Import the required actions
 import { DeleteTicketButton } from "./delete"; // Import the DeleteTicketButton
 import { extractInstagramName, formatInstagramLink } from "@/shared/util";
+import { HandCoins } from "lucide-react";
 
 export function TicketCard({ ticket }: { ticket: Ticket }) {
   return (
@@ -10,7 +11,12 @@ export function TicketCard({ ticket }: { ticket: Ticket }) {
       {/* Ticket Header */}
       <Link href={`/ticket/${ticket.id}`} className="block mb-4">
         <h2 className="text-2xl font-semibold flex items-center justify-between">
-          <span className="text-blue-800">{ticket.name}</span>
+          <span className="text-blue-800 inline-flex gap-2">
+            {ticket.name}
+            {ticket.event_id !== "manual" && (
+              <HandCoins size={14} color="green" />
+            )}
+          </span>
           <span className="text-emerald-900 font-bold">{ticket.grade}</span>
         </h2>
       </Link>
