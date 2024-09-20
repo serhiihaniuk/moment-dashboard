@@ -41,7 +41,7 @@ export default async function Home() {
           <tbody className="bg-white divide-y divide-gray-200">
             {tickets.map((ticket, i) => (
               <tr key={ticket.id}>
-                <td className="px-1 py-4 whitespace-nowrap text-sm font-medium text-blue-800 w-1/4">
+                <td className="px-1 max-w-52 overflow-hidden text-ellipsis py-4 whitespace-nowrap text-sm font-medium text-blue-800 w-1/4">
                   <a href={`/ticket/${ticket.id}`} className="hover:underline">
                     {i + 1}
                   </a>
