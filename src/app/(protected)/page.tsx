@@ -46,7 +46,7 @@ export default async function Home() {
                     {i + 1}
                   </a>
                 </td>
-                <td className="px-1 py-4 whitespace-nowrap text-sm font-medium text-blue-800">
+                <td className="px-1 py-4 whitespace-nowrap text-sm max-w-52 overflow-hidden text-ellipsis font-medium text-blue-800">
                   <a
                     href={`/ticket/${ticket.id}`}
                     className="hover:underline flex gap-2"
