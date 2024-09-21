@@ -1,5 +1,5 @@
 import { db } from "@/shared/db";
-import { ticketTable } from "@/shared/schema";
+import { reservationTable, ticketTable } from "@/shared/schema";
 import { NextRequest, NextResponse } from "next/server";
 import { nanoid } from "nanoid";
 import { extractInstagramUsername } from "@/shared/util";
@@ -39,6 +39,23 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({
         received: true,
         message: "Ticket grade not found",
+      });
+    }
+
+    if (grade === "reservation") {
+      await db.insert(reservationTable).values({
+        id,
+        name,
+        email,
+        phone,
+        instagram,
+        date: new Date(),
+        event_id: body?.id || "unknown",
+      });
+
+      return NextResponse.json({
+        received: true,
+        message: "Reservation ticket captured",
       });
     }
 

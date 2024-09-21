@@ -39,6 +39,25 @@ export const ticketTable = pgTable("ticket", {
   archived: boolean("archived").notNull().default(false),
 });
 
+export const reservationTable = pgTable("reservation", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => generateId(15)),
+  name: text("name").notNull(),
+  email: text("email").notNull(),
+  phone: text("phone").notNull(),
+  instagram: text("instagram").notNull(),
+  processed: boolean("processed").notNull().default(false),
+  date: timestamp("date", {
+    withTimezone: true,
+    mode: "date",
+  })
+    .notNull()
+    .defaultNow(),
+  event_id: text("event_id").notNull().default("unknown"),
+  archived: boolean("archived").notNull().default(false),
+});
+
 export const partnerRequestTable = pgTable("partner_request", {
   id: text("id")
     .primaryKey()
@@ -85,3 +104,6 @@ export type SelectUser = typeof userTable.$inferSelect;
 export type User = Omit<InsertUser, "password">;
 export type InsertTicket = typeof ticketTable.$inferInsert;
 export type Ticket = typeof ticketTable.$inferSelect;
+
+export type InsertReservation = typeof reservationTable.$inferInsert;
+export type Reservation = typeof reservationTable.$inferSelect;
