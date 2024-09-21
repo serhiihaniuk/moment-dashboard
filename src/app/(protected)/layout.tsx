@@ -28,6 +28,14 @@ function Header() {
               Конкурсы
             </Link>
           </li>
+          <li>
+            <Link
+              href="/reservations"
+              className="hover:text-blue-200 transition-colors"
+            >
+              Резервація
+            </Link>
+          </li>
         </ul>
       </nav>
     </header>

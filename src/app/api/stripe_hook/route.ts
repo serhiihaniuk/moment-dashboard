@@ -16,22 +16,26 @@ export async function POST(request: NextRequest) {
 
     if (body.type !== "checkout.session.completed") {
       return NextResponse.json(
-        { message: "Unhandled event type" },
-        { status: 400 }
+        { message: "Unhandled event type", received: true },
+        { status: 200 }
       );
     }
 
     const id = nanoid(10);
-    const customFields: CustomField[] = body.data.object.custom_fields || [];
-    const customerDetails = body.data.object.customer_details || {};
+    const customFields: CustomField[] = body?.data?.object?.custom_fields || [];
+    const customerDetails = body?.data?.object?.customer_details || {};
 
     const name =
       customFields.find((field) => field.key === "name")?.text?.value || "";
     const email = customerDetails.email;
     const phone = customerDetails.phone;
     const instagram = extractInstagramUsername(
-      customFields.find((field) => field.key.toLowerCase() === "instagram")
+      customFields.find((field) => field?.key?.toLowerCase() === "instagram")
         ?.text.value || ""
+    );
+    const telegram = String(
+      customFields.find((field) => field?.key?.toLowerCase() === "telegram") ||
+        ""
     );
     const grade = body.data.object?.metadata?.ticket;
 
@@ -49,6 +53,7 @@ export async function POST(request: NextRequest) {
         email,
         phone,
         instagram,
+        telegram,
         date: new Date(),
         event_id: body?.id || "unknown",
       });

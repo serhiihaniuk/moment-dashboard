@@ -47,6 +47,7 @@ export const reservationTable = pgTable("reservation", {
   email: text("email").notNull(),
   phone: text("phone").notNull(),
   instagram: text("instagram").notNull(),
+  telegram: text("telegram").notNull(),
   processed: boolean("processed").notNull().default(false),
   date: timestamp("date", {
     withTimezone: true,
