@@ -1,0 +1,1 @@
+ALTER TABLE "reservation" ADD COLUMN "telegram" text NOT NULL;
