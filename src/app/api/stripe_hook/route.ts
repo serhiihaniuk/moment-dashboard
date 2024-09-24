@@ -34,8 +34,8 @@ export async function POST(request: NextRequest) {
         ?.text.value || ""
     );
     const telegram = String(
-      customFields.find((field) => field?.key?.toLowerCase() === "telegram") ||
-        ""
+      customFields.find((field) => field?.key?.toLowerCase() === "telegram")
+        ?.text.value || ""
     );
     const grade = body.data.object?.metadata?.ticket;
 
