@@ -9,6 +9,22 @@ interface TicketsTableProps {
   tickets: Ticket[];
 }
 
+// Helper function to normalize the grade and remove "+" if present
+const normalizeGrade = (grade: string) => {
+  return grade.toLowerCase().replace("+", "");
+};
+
+const getGradeClass = (grade: string) => {
+  switch (normalizeGrade(grade)) {
+    case "vip":
+      return "bg-yellow-300 text-yellow-900"; // Gold-like tone for VIP
+    case "premium":
+      return "bg-teal-300 text-teal-900"; // Dark teal for Premium
+    default:
+      return "bg-gray-300 text-gray-900"; // Neutral gray for Fan
+  }
+};
+
 const TicketsTable: React.FC<TicketsTableProps> = ({ tickets }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all"); // 'all', 'arrived', 'notArrived'
@@ -157,8 +173,14 @@ const TicketsTable: React.FC<TicketsTableProps> = ({ tickets }) => {
                       </span>
                     )}
                   </td>
-                  <td className="px-2 py-3 text-sm text-gray-700">
-                    {ticket.grade}
+                  <td className="px-2 py-3 text-sm whitespace-nowrap">
+                    <span
+                      className={`inline-flex items-center px-3 py-1 text-sm font-medium rounded-full ${getGradeClass(
+                        ticket.grade
+                      )}`}
+                    >
+                      {ticket.grade.includes("regular") ? "fan" : ticket.grade}
+                    </span>
                   </td>
                   <td className="px-2 py-3 text-sm text-center">
                     {ticket.event_id !== "manual" ? (
