@@ -11,65 +11,126 @@ interface TicketsTableProps {
 
 const TicketsTable: React.FC<TicketsTableProps> = ({ tickets }) => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all"); // 'all', 'arrived', 'notArrived'
 
   const filteredTickets = tickets.filter((ticket) => {
     const lowerSearchTerm = searchTerm.toLowerCase();
-    return (
+    const matchesSearch =
       ticket.name.toLowerCase().includes(lowerSearchTerm) ||
       ticket.email.toLowerCase().includes(lowerSearchTerm) ||
       (ticket.instagram &&
         extractInstagramName(formatInstagramLink(ticket.instagram))
           .toLowerCase()
-          .includes(lowerSearchTerm))
-    );
+          .includes(lowerSearchTerm));
+
+    const matchesStatus =
+      statusFilter === "all" ||
+      (statusFilter === "arrived" && ticket.arrived) ||
+      (statusFilter === "notArrived" && !ticket.arrived);
+
+    return matchesSearch && matchesStatus;
   });
 
   return (
-    <div className="max-w-screen px-2 mx-auto">
-      {/* Search Input */}
-      <div className="mb-4 mx-auto w-full max-w-96 flex gap-2">
-        <input
-          type="text"
-          className="p-2 border border-gray-300 grow text-[18px] placeholder:text-[14px] rounded-lg shadow-sm focus:outline-none focus:border-blue-500"
-          placeholder="Поиск по имени, email или Instagram"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <button
-          onClick={() => setSearchTerm("")}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
-        >
-          &times;
-        </button>
+    <div className="max-w-screen-lg mx-auto">
+      {/* Search and Filter Controls */}
+      <div className="mb-6 space-y-4">
+        {/* Search Input */}
+        <div className="flex items-center space-x-2">
+          <input
+            type="text"
+            className="w-full p-3 border border-gray-300 rounded-lg shadow-sm text-[16px] placeholder:text-gray-400 focus:outline-none focus:border-blue-500"
+            placeholder="Поиск по имени, email или Instagram"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <button
+            onClick={() => setSearchTerm("")}
+            className="bg-red-500 text-white px-4 py-3 rounded-lg hover:bg-red-600 transition-colors duration-200"
+          >
+            &times;
+          </button>
+        </div>
+
+        {/* Status Filter */}
+        <div className="flex items-center justify-between space-x-4">
+          <span className="text-gray-700 text-sm font-medium">
+            Фильтр по статусу:
+          </span>
+          <div className="flex items-center space-x-2">
+            <label className="flex items-center space-x-1">
+              <input
+                type="radio"
+                name="status"
+                value="all"
+                checked={statusFilter === "all"}
+                onChange={() => setStatusFilter("all")}
+                className="form-radio text-blue-600"
+              />
+              <span className="text-sm text-gray-700">Все</span>
+            </label>
+            <label className="flex items-center space-x-1">
+              <input
+                type="radio"
+                name="status"
+                value="arrived"
+                checked={statusFilter === "arrived"}
+                onChange={() => setStatusFilter("arrived")}
+                className="form-radio text-green-600"
+              />
+              <span className="text-sm text-gray-700">Прибыл</span>
+            </label>
+            <label className="flex items-center space-x-1">
+              <input
+                type="radio"
+                name="status"
+                value="notArrived"
+                checked={statusFilter === "notArrived"}
+                onChange={() => setStatusFilter("notArrived")}
+                className="form-radio text-red-600"
+              />
+              <span className="text-sm text-gray-700">Не прибыл</span>
+            </label>
+          </div>
+        </div>
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto">
-        <table className="w-full mx-auto divide-y max-w-[700px] divide-gray-200 bg-white shadow-md rounded-lg">
+      <div className="overflow-x-auto shadow-lg rounded-lg bg-white">
+        <table className="min-w-full divide-y divide-gray-200 table-auto">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-1 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/4">
+              <th className="px-2 py-3 text-left text-sm font-semibold text-gray-600 w-[40px]">
                 #
               </th>
-              <th className="px-1 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-2 py-3 text-left text-sm font-semibold text-gray-600">
                 Имя
               </th>
-              <th className="px-1 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-2 py-3 text-left text-sm font-semibold text-gray-600">
                 Статус
               </th>
-              <th className="px-1 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-2 py-3 text-left text-sm font-semibold text-gray-600">
+                Уровень
+              </th>
+              <th className="px-2 py-3 text-left text-sm font-semibold text-gray-600">
+                Тип
+              </th>
+              <th className="px-2 py-3 text-left text-sm font-semibold text-gray-600">
                 Email
               </th>
-              <th className="px-1 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-2 py-3 text-left text-sm font-semibold text-gray-600">
                 Instagram
               </th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="divide-y divide-gray-200 bg-white">
             {filteredTickets.length > 0 ? (
               filteredTickets.map((ticket, i) => (
-                <tr key={ticket.id}>
-                  <td className="px-1 max-w-52 overflow-hidden text-ellipsis py-4 whitespace-nowrap text-sm font-medium text-blue-800 w-1/4">
+                <tr
+                  key={ticket.id}
+                  className="hover:bg-gray-50 transition-colors duration-150"
+                >
+                  <td className="px-2 py-3 text-sm text-blue-600 font-medium">
                     <a
                       href={`/ticket/${ticket.id}`}
                       className="hover:underline"
@@ -77,29 +138,36 @@ const TicketsTable: React.FC<TicketsTableProps> = ({ tickets }) => {
                       {i + 1}
                     </a>
                   </td>
-                  <td className="px-1 py-4 whitespace-nowrap text-sm max-w-52 overflow-hidden text-ellipsis font-medium text-blue-800">
+                  <td className="px-2 py-3 text-sm text-gray-900 font-medium max-w-[180px] truncate">
                     <a
                       href={`/ticket/${ticket.id}`}
-                      className="hover:underline flex gap-2"
+                      className="hover:underline"
                     >
-                      {ticket.name} - {ticket.grade}
-                      {ticket.event_id !== "manual" && (
-                        <HandCoins size={14} color="green" />
-                      )}
+                      {ticket.name}
                     </a>
                   </td>
-                  <td className="px-1 py-4 whitespace-nowrap text-sm text-gray-700">
+                  <td className="px-2 py-3 text-sm whitespace-nowrap">
                     {ticket.arrived ? (
-                      <span className="bg-green-200 text-green-800 px-2 py-1 rounded">
+                      <span className="inline-flex items-center px-3 py-1 text-sm font-medium bg-green-100 text-green-800 rounded-full">
                         Прибыл
                       </span>
                     ) : (
-                      <span className="bg-red-200 text-red-800 px-2 py-1 rounded">
+                      <span className="inline-flex items-center px-3 py-1 text-sm font-medium bg-red-100 text-red-800 rounded-full">
                         Не прибыл
                       </span>
                     )}
                   </td>
-                  <td className="px-1 py-4 whitespace-nowrap text-sm text-gray-600">
+                  <td className="px-2 py-3 text-sm text-gray-700">
+                    {ticket.grade}
+                  </td>
+                  <td className="px-2 py-3 text-sm text-center">
+                    {ticket.event_id !== "manual" ? (
+                      <HandCoins size={18} className="text-green-500" />
+                    ) : (
+                      ""
+                    )}
+                  </td>
+                  <td className="px-2 py-3 text-sm text-gray-600">
                     <a
                       href={`mailto:${ticket.email}`}
                       className="hover:underline"
@@ -107,7 +175,7 @@ const TicketsTable: React.FC<TicketsTableProps> = ({ tickets }) => {
                       {ticket.email}
                     </a>
                   </td>
-                  <td className="px-1 py-4 whitespace-nowrap text-sm text-gray-600">
+                  <td className="px-2 py-3 text-sm text-gray-600 truncate max-w-[150px]">
                     {ticket.instagram && (
                       <a
                         href={formatInstagramLink(ticket.instagram)}
@@ -125,11 +193,8 @@ const TicketsTable: React.FC<TicketsTableProps> = ({ tickets }) => {
               ))
             ) : (
               <tr>
-                <td
-                  colSpan={5}
-                  className="px-1 py-4 text-center text-sm text-gray-600"
-                >
-                  No matching tickets found.
+                <td colSpan={7} className="px-4 py-5 text-center text-gray-600">
+                  Совпадающие билеты не найдены.
                 </td>
               </tr>
             )}

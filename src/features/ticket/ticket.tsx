@@ -7,22 +7,43 @@ import { HandCoins } from "lucide-react";
 
 export function TicketCard({ ticket }: { ticket: Ticket }) {
   return (
-    <div className="bg-white shadow-md rounded-lg p-6 mb-6">
+    <div className="bg-white shadow-md rounded-lg p-6 mb-6 space-y-4">
       {/* Ticket Header */}
-      <Link href={`/ticket/${ticket.id}`} className="block mb-4">
-        <h2 className="text-2xl font-semibold flex items-center justify-between">
-          <span className="text-blue-800 inline-flex gap-2">
-            {ticket.name}
-            {ticket.event_id !== "manual" && (
-              <HandCoins size={14} color="green" />
-            )}
-          </span>
-          <span className="text-emerald-900 font-bold">{ticket.grade}</span>
+      <Link href={`/ticket/${ticket.id}`} className="block mb-2">
+        <h2 className="text-2xl font-semibold text-blue-800 hover:underline">
+          {ticket.name}
         </h2>
       </Link>
 
-      {/* Ticket Info */}
-      <div className="space-y-2 mb-4">
+      {/* Ticket Information */}
+      <div className="space-y-2">
+        {/* Status */}
+        <div className="flex items-center space-x-2">
+          <span className="font-medium text-gray-600">Статус:</span>
+          <span
+            className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${
+              ticket.arrived
+                ? "bg-green-100 text-green-700"
+                : "bg-red-100 text-red-700"
+            }`}
+          >
+            {ticket.arrived ? "Прибыл" : "Не прибыл"}
+          </span>
+        </div>
+
+        {/* Grade and Ticket Type */}
+        <div className="flex items-center space-x-2">
+          <span className="font-medium text-gray-600">Уровень:</span>
+          <span className="text-gray-700">{ticket.grade}</span>
+        </div>
+
+        {ticket.event_id !== "manual" && (
+          <div className="flex items-center space-x-2">
+            <span className="font-medium text-gray-600">Тип билета:</span>
+            <HandCoins size={18} className="text-green-500" />
+          </div>
+        )}
+
         {/* Email Link */}
         <Link
           className="flex items-center text-gray-600 hover:text-blue-600"
@@ -76,26 +97,12 @@ export function TicketCard({ ticket }: { ticket: Ticket }) {
         )}
       </div>
 
-      {/* Ticket Status */}
-      <div className="mb-4">
-        <span className="block text-gray-700">Статус прибытия:</span>
-        <span
-          className={`inline-block px-2 py-1 text-sm font-medium rounded ${
-            ticket.arrived
-              ? "bg-green-200 text-green-800"
-              : "bg-red-200 text-red-800"
-          }`}
-        >
-          {ticket.arrived ? "Прибыл" : "Не прибыл"}
-        </span>
-      </div>
-
       {/* Form to toggle ticket presence */}
       <form action={toggleTicketPresence} className="mb-4">
         <input type="hidden" name="ticketId" value={ticket.id} />
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-700"
+          className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-700 transition-colors"
         >
           {ticket.arrived
             ? "Отметить как не прибывшего"
