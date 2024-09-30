@@ -1,11 +1,6 @@
-import { getTickets } from "@/features/actions/get-tickets";
+import { getTicketById, getTickets } from "@/features/actions/get-tickets";
 import Link from "next/link";
 import { TicketCard } from "@/features/ticket/ticket";
-
-const getTicketById = async (id: string) => {
-  const tickets = await getTickets();
-  return tickets.find((ticket) => ticket.id === id);
-};
 
 export default async function TicketPage({
   params,

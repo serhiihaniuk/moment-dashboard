@@ -15,6 +15,10 @@ export function TicketCard({ ticket }: { ticket: Ticket }) {
         </h2>
       </Link>
 
+      {ticket.archived && (
+        <div className="text-red-600 text-xl font-bold">Архивный билет</div>
+      )}
+
       {/* Ticket Information */}
       <div className="space-y-2">
         {/* Status */}

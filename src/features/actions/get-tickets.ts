@@ -13,6 +13,15 @@ export const getTickets = async () => {
   return tickets;
 };
 
+export const getTicketById = async (ticketId: string) => {
+  const ticket = await db
+    .select()
+    .from(ticketTable)
+    .where(eq(ticketTable.id, ticketId))
+    .limit(1);
+  return ticket[0];
+};
+
 // Function to set the archived field to true
 export const archiveTicket = async (ticketId: string) => {
   await db
