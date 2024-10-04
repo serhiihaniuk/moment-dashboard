@@ -2,9 +2,11 @@ import { getTickets } from "@/features/actions/get-tickets";
 import { Ticket } from "@/shared/schema";
 import TicketModal from "@/shared/add-ticket";
 import TicketsTable from "@/features/tickets-table";
+import { getConcursRegistrations } from "@/app/api/concurs/get-concurs-registrations";
 
 export default async function Home() {
   const tickets: Ticket[] = await getTickets();
+  const registrations = await getConcursRegistrations();
 
   return (
     <main className="min-h-screen bg-stone-100 p-4 sm:p-6 md:p-8">
@@ -15,7 +17,7 @@ export default async function Home() {
       <div className="space-y-4 max-w-96 mx-auto flex flex-col items-start gap-4 py-4">
         <TicketModal buttonText="Добавить билет" />
       </div>
-      <TicketsTable tickets={tickets} />
+      <TicketsTable tickets={tickets} registrations={registrations} />
     </main>
   );
 }

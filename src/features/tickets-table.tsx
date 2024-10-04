@@ -2,11 +2,13 @@
 
 import { useState } from "react";
 import { Ticket } from "@/shared/schema";
+import { ConcursRegistration } from "@/shared/schema";
 import { extractInstagramName, formatInstagramLink } from "@/shared/util";
 import { HandCoins } from "lucide-react";
 
 interface TicketsTableProps {
   tickets: Ticket[];
+  registrations: ConcursRegistration[];
 }
 
 // Helper function to normalize the grade and remove "+" if present
@@ -25,7 +27,22 @@ const getGradeClass = (grade: string) => {
   }
 };
 
-const TicketsTable: React.FC<TicketsTableProps> = ({ tickets }) => {
+// Helper function to check if the person is registered in any concurs
+const getConcursCategory = (
+  email: string,
+  registrations: ConcursRegistration[]
+) => {
+  const registration = registrations.find((reg) => reg.email === email);
+  const category = registration ? registration.category : null;
+  if (!category) return null;
+
+  return category === "1" ? "Найрівніший френч" : "Корейські дизайни";
+};
+
+const TicketsTable: React.FC<TicketsTableProps> = ({
+  tickets,
+  registrations,
+}) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all"); // 'all', 'arrived', 'notArrived'
 
@@ -137,6 +154,9 @@ const TicketsTable: React.FC<TicketsTableProps> = ({ tickets }) => {
               <th className="px-2 py-3 text-left text-sm font-semibold text-gray-600">
                 Instagram
               </th>
+              <th className="px-2 py-3 text-left text-sm font-semibold text-gray-600">
+                Конкурсная регистрация
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 bg-white">
@@ -211,11 +231,16 @@ const TicketsTable: React.FC<TicketsTableProps> = ({ tickets }) => {
                       </a>
                     )}
                   </td>
+                  <td className="px-2 py-3 text-sm text-gray-700 text-center">
+                    <span className="text-blue-700 text-center px-3 py-1 rounded-full">
+                      {getConcursCategory(ticket.email, registrations)}
+                    </span>
+                  </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={7} className="px-4 py-5 text-center text-gray-600">
+                <td colSpan={8} className="px-4 py-5 text-center text-gray-600">
                   Совпадающие билеты не найдены.
                 </td>
               </tr>
