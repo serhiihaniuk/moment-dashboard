@@ -48,13 +48,18 @@ const TicketsTable: React.FC<TicketsTableProps> = ({
 
   const filteredTickets = tickets.filter((ticket) => {
     const lowerSearchTerm = searchTerm.toLowerCase();
+
+    // Check if the concurs category exists for filtering
+    const concursCategory = getConcursCategory(ticket.email, registrations);
     const matchesSearch =
       ticket.name.toLowerCase().includes(lowerSearchTerm) ||
       ticket.email.toLowerCase().includes(lowerSearchTerm) ||
       (ticket.instagram &&
         extractInstagramName(formatInstagramLink(ticket.instagram))
           .toLowerCase()
-          .includes(lowerSearchTerm));
+          .includes(lowerSearchTerm)) ||
+      (concursCategory &&
+        concursCategory.toLowerCase().includes(lowerSearchTerm));
 
     const matchesStatus =
       statusFilter === "all" ||
